@@ -62,7 +62,7 @@ targetFileReader = dsp.AudioFileReader('its_working.m4a',...
 % simulate
 for m = 1:NSampPerFrame:NTSample
     sig_idx = m:m+NSampPerFrame-1;
-    x1 = targetFileReader();
+    x1 = 2*targetFileReader();
     x2 = obnoxiouslaughFileReader();
     x3 = vanhalenFileReader();
     temp = collector([x1 x2 x3],...

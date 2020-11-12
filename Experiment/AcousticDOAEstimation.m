@@ -76,8 +76,8 @@ for m = 1:nSampPerFrame:nSamples
     signal(sig_idx,:) = temp;
 end
 
-signal(:,1) = signal(:,1)/100;
-signal(:,5) = signal(:,1)/10;
+%signal(:,1) = signal(:,1)/100;
+%signal(:,5) = signal(:,1)/10;
 %% Beamscan DOA Estimator
 
 beamformer = phased.TimeDelayBeamformer('SensorArray',ula,...
