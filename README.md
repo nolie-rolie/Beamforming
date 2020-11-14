@@ -22,7 +22,7 @@
 	* Adjust *FileReaderTarget*, *FileReader1*, and *FileReader2* to match your audio files (i.e. dsp.AudioFileReader('{your_file_name}','SamplesPerFrame',NSampPerFrame);)
 4. Run (F5)
  
-# Code Walkthroughs
+## Code Walkthroughs
 * Connecting an audio interface with MATLAB
 * Recording and reading audio in MATLAB
 * How to run scripts
