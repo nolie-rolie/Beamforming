@@ -20,13 +20,12 @@ c = 343; % speed of sound in air, in m/s
 
 % [angle(deg), elevation(deg)]
 ang_target = [-30; 0];
-ang_1 = [20; 10];
-ang_2 = [-10; 0];
+ang_1 = [-10; 10];
+ang_1 = [20; 0];
 
-fs = 44100; % adjust sample rate -> 44100 is SR for iPhone voice memos
-NSampPerFrame = 1050; % must be a factor of fs
+fs = 44100;
 collector = phased.WidebandCollector('Sensor',ula,'PropagationSpeed',c,...
-    'SampleRate',fs,'NumSubbands',NSampPerFrame,'ModulatedInput', false);
+    'SampleRate',fs,'NumSubbands',1050,'ModulatedInput', false);
 
 t_duration = 3;  % 3 seconds
 t = 0:1/fs:t_duration-1/fs;
@@ -36,6 +35,7 @@ prevS = rng(2008); % seeds the rng
 noisePwr = 1e-4; % noise power
 
 % preallocate
+NSampPerFrame = 1050;
 NTSample = t_duration*fs;
 sigArray = zeros(NTSample,nMics);
 audio_target = zeros(NTSample,1);
@@ -49,11 +49,19 @@ audioWriter = audioDeviceWriter('SampleRate',fs, ...
 % checks if device has audio output
 isAudioSupported = (length(getAudioDevices(audioWriter))>1);
 
-FileReaderTarget = dsp.AudioFileReader('its_working.m4a',...
+% dftFileReader = dsp.AudioFileReader('dft_voice_8kHz.wav',...
+%     'SamplesPerFrame',NSampPerFrame);
+% speechFileReader = dsp.AudioFileReader('cleanspeech_voice_8kHz.wav',...
+%     'SamplesPerFrame',NSampPerFrame);
+% laughterFileReader = dsp.AudioFileReader('laughter_8kHz.wav',...
+%     'SamplesPerFrame',NSampPerFrame);
+
+
+targetFileReader = dsp.AudioFileReader('its_working.m4a',...
     'SamplesPerFrame',NSampPerFrame);
-FileReader1 = dsp.AudioFileReader('van_halen_sample.m4a',...
+vanhalenFileReader = dsp.AudioFileReader('van_halen_sample.m4a',...
     'SamplesPerFrame',NSampPerFrame);
-FileReader2 = dsp.AudioFileReader('obnoxious_laugh.m4a',...
+obnoxiouslaughFileReader = dsp.AudioFileReader('obnoxious_laugh.m4a',...
     'SamplesPerFrame',NSampPerFrame);
 
 
@@ -61,20 +69,22 @@ FileReader2 = dsp.AudioFileReader('obnoxious_laugh.m4a',...
 % simulate
 for m = 1:NSampPerFrame:NTSample
     sig_idx = m:m+NSampPerFrame-1;
-    % multiply by constant to boost signal, i.e. "2*FileReader2()"
-    xT = FileReaderTarget(); 
-    x1 = FileReader1();
-    x2 = FileReader2();
-    temp = collector([xT x1 x2],...
-        [ang_target ang_1 ang_2]) + ... % set angles
+%     x1 = dftFileReader();
+%     x2 = speechFileReader();
+%     x3 = 2*laughterFileReader(); % 2* makes laughter louder
+    x1 = targetFileReader();
+    x2 = obnoxiouslaughFileReader();
+    x3 = vanhalenFileReader();
+    temp = collector([x1 x2 x3],...
+        [ang_target ang_1 ang_1]) + ... % set angles
         sqrt(noisePwr)*randn(NSampPerFrame,nMics); % adds random noise
     if isAudioSupported
         play(audioWriter,0.5*temp(:,2));
     end
     sigArray(sig_idx,:) = temp;
-    audio_target(sig_idx) = xT;
-    audio_1(sig_idx) = x1;
-    audio_2(sig_idx) = x2;
+    audio_target(sig_idx) = x1;
+    audio_1(sig_idx) = x2;
+    audio_2(sig_idx) = x3;
 end
 
 % plot signal

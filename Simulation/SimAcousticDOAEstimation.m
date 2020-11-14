@@ -21,13 +21,13 @@ c = 343; % speed of sound in air, in m/s
 
 % [angle(deg), elevation(deg)]
 ang_target = [-70; 0];
-ang_laugh = [0; 0];
-ang_VanHalen = [70; 0];
+ang_1 = [0; 0];
+ang_2 = [70; 0];
 
-%fs = 8000;
-fs = 44100;
+fs = 44100; % adjust sample rate -> 44100 is SR for iPhone voice memos
+NSampPerFrame = 1050; % must be a factor of fs
 collector = phased.WidebandCollector('Sensor',ula,'PropagationSpeed',c,...
-    'SampleRate',fs,'NumSubbands',1050,'ModulatedInput', false);
+    'SampleRate',fs,'NumSubbands',NSampPerFrame,'ModulatedInput', false);
 
 t_duration = 3;  % 3 seconds
 t = 0:1/fs:t_duration-1/fs;
@@ -37,12 +37,11 @@ prevS = rng(2008); % seeds the rng
 noisePwr = 1e-4; % noise power
 
 % preallocate
-NSampPerFrame = 1050;
 NTSample = t_duration*fs;
 sigArray = zeros(NTSample,nMics);
-voice_dft = zeros(NTSample,1);
-voice_cleanspeech = zeros(NTSample,1);
-voice_laugh = zeros(NTSample,1);
+audio_target = zeros(NTSample,1);
+audio_1 = zeros(NTSample,1);
+audio_2 = zeros(NTSample,1);
 
 % set up audio device writer
 audioWriter = audioDeviceWriter('SampleRate',fs, ...
@@ -51,30 +50,32 @@ audioWriter = audioDeviceWriter('SampleRate',fs, ...
 % checks if device has audio output
 isAudioSupported = (length(getAudioDevices(audioWriter))>1);
 
-vanhalenFileReader = dsp.AudioFileReader('van_halen_sample.m4a',...
+FileReaderTarget = dsp.AudioFileReader('its_working.m4a',...
     'SamplesPerFrame',NSampPerFrame);
-obnoxiouslaughFileReader = dsp.AudioFileReader('obnoxious_laugh.m4a',...
+FileReader1 = dsp.AudioFileReader('van_halen_sample.m4a',...
     'SamplesPerFrame',NSampPerFrame);
-targetFileReader = dsp.AudioFileReader('its_working.m4a',...
+FileReader2 = dsp.AudioFileReader('obnoxious_laugh.m4a',...
     'SamplesPerFrame',NSampPerFrame);
+
 
 
 % simulate
 for m = 1:NSampPerFrame:NTSample
     sig_idx = m:m+NSampPerFrame-1;
-    x1 = 2*targetFileReader();
-    x2 = obnoxiouslaughFileReader();
-    x3 = vanhalenFileReader();
-    temp = collector([x1 x2 x3],...
-        [ang_target ang_laugh ang_VanHalen]) + ... % set angles
+    % multiply by constant to boost signal, i.e. "2*FileReader2()"
+    xT = FileReaderTarget();
+    x1 = FileReader1();
+    x2 = FileReader2();
+    temp = collector([xT x1 x2],...
+        [ang_target ang_1 ang_2]) + ... % set angles
         sqrt(noisePwr)*randn(NSampPerFrame,nMics); % adds random noise
     if isAudioSupported
         play(audioWriter,0.5*temp(:,2));
     end
     sigArray(sig_idx,:) = temp;
-    voice_dft(sig_idx) = x1;
-    voice_cleanspeech(sig_idx) = x2;
-    voice_laugh(sig_idx) = x3;
+    audio_target(sig_idx) = xT;
+    audio_1(sig_idx) = x1;
+    audio_2(sig_idx) = x2;
 end
 
 %% Beamscan DOA Estimator
@@ -106,7 +107,8 @@ for iter = 1:size
     end
 end
 
-disp(['The direction or arrival was ',num2str(DOA),'.']);
+% DOA of loudest sound source
+disp(['The direction of arrival was ',num2str(DOA),'.']);
 
 % plot in new figure window
 figure
