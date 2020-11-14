@@ -24,8 +24,8 @@
 4. Run (F5)
  
 ## Code Walkthroughs
-* Connecting an audio interface with MATLAB
-* Reading audio in MATLAB
-* How to run simulation scripts
-* Experiment Demo
+* [Connecting an audio interface with MATLAB](https://youtu.be/t0ABDNk3oGY)
+* [Reading audio in MATLAB](https://youtu.be/BB1JjlJtKrI)
+* [How to run simulation scripts](https://youtu.be/iKc2qNjOrM0)
+* [Experiment Demo](https://youtu.be/xhGx7NFawyY)
 
