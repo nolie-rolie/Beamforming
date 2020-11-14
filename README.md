@@ -8,8 +8,8 @@
   Audio Toolbox
  
  (The rest is only required for code in Experiment folder)
- Audio Interface with >= 2 inputs
- >= 2 Microphones
+ Audio Interface (>= 2 inputs)
+ Microphones (>= 2)
  ASIO4ALL Drivers (http://www.asio4all.org/)
   
 # Quick Start
