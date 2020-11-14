@@ -12,7 +12,7 @@ close all;
 microphone = ...
     phased.OmnidirectionalMicrophoneElement('FrequencyRange',[20 20e3]);
 
-nMics = 10;
+nMics = 8;
 ula = phased.ULA(nMics,0.05,'Element',microphone); % spacing = 5 cm
 c = 343; % speed of sound in air, in m/s
 
