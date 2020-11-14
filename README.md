@@ -2,10 +2,10 @@
  MATLAB code for my 2020 Audio Tech Project.
 
 # Prerequisites
- MATLAB
-  Phased Array Toolbox
-  Digital Signal Processing Toolbox
-  Audio Toolbox
+ MATLAB \n
+  Phased Array Toolbox \n
+  Digital Signal Processing Toolbox \n
+  Audio Toolbox \n
  
  (The rest is only required for code in Experiment folder)
  Audio Interface (>= 2 inputs)
