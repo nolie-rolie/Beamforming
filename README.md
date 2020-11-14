@@ -9,6 +9,7 @@
  
 *(The rest is only required for code in Experiment folder)*
 * Audio Interface (>= 2 inputs)
+* Driver for audio interface ([I used the MOTU 8pre USB](https://motu.com/techsupport/technotes/driverlog))
 * Microphones (>= 2)
 * [ASIO4ALL Drivers](http://www.asio4all.org/)
   
@@ -25,5 +26,6 @@
 ## Code Walkthroughs
 * Connecting an audio interface with MATLAB
 * Recording and reading audio in MATLAB
-* How to run scripts
+* How to run simulation scripts
+* Experiment Demo
 
