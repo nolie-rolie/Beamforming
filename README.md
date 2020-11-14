@@ -16,7 +16,7 @@
 1. [Fork this repository](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo)
 2. Open Simulation/SimAcousticBeamforming in MATLAB OR Open Simulation/SimAcousticDOAEstimation in MATLAB
 3. OPTIONAL: Change the simulated audio environment
- * Record 3 audio files (>= 3 seconds) and move them to Beamforming/Simulation folder
+* Record 3 audio files (>= 3 seconds) and move them to Beamforming/Simulation folder
  * Change angles of arrival by adjusting *ang_target*, *ang_1*, *ang_2*
  * Adjust *fs* and *NSampPerFrame* to match your audio files
  * Adjust *FileReaderTarget*, *FileReader1*, and *FileReader2* to match your audio files (i.e. dsp.AudioFileReader('{your_file_name}','SamplesPerFrame',NSampPerFrame);)
