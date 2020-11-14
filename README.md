@@ -1,6 +1,5 @@
 # Beamforming
- MATLAB code for my 2020 Audio Tech Project.
- https://github.com/nolie-rolie/Beamforming
+ [MATLAB code for my 2020 Audio Tech Project.](https://github.com/nolie-rolie/Beamforming)
 
 ## Prerequisites
 * MATLAB 
