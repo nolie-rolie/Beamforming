@@ -1,7 +1,7 @@
 # Beamforming
  MATLAB code for my 2020 Audio Tech Project.
 
-# Prerequisites
+## Prerequisites
 * MATLAB 
 	* Phased Array Toolbox 
 	* Digital Signal Processing Toolbox 
@@ -12,7 +12,7 @@
 * Microphones (>= 2)
 * [ASIO4ALL Drivers](http://www.asio4all.org/)
   
-# Quick Start
+## Quick Start
 1. [Fork this repository](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo)
 2. Open Simulation/SimAcousticBeamforming in MATLAB OR Open Simulation/SimAcousticDOAEstimation in MATLAB
 3. OPTIONAL: Change the simulated audio environment
