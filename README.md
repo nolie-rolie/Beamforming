@@ -25,7 +25,7 @@
  
 ## Code Walkthroughs
 * Connecting an audio interface with MATLAB
-* Recording and reading audio in MATLAB
+* Reading audio in MATLAB
 * How to run simulation scripts
 * Experiment Demo
 
